@@ -1,0 +1,14 @@
+{
+  "name": "kleisli",
+  "version": "0.0.0",
+  "description": "Kleisli",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surovv/kleisli.git"
+  },
+  "scripts": {
+  },
+  "author": "surovv",
+  "license": "MIT"
+}
