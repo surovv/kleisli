@@ -1,6 +1,6 @@
-import Functor from './functor';
+import Applicative from './applicative';
 
-export default class Monad extends Functor{
+export default class Monad extends Applicative{
   bind(fn) { throw new Error('bind must be implemented') }
   sbind(fn) { throw new Error('sbind must be implemented') }
   compose(fn) { throw new Error('compose must be implemented') }

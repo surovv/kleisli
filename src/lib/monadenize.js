@@ -1,6 +1,7 @@
 const defaultInstanceMethods = (val, instanceConstructor) => ({
   bind: fn => fn(val),
   sbind: fn => fn(),
+  apply: ffn => ffn.fmap(fn => fn(val))
 //  id
 })
 
