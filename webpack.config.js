@@ -1,3 +1,5 @@
+/* eslint "fp/no-mutation": ["error", {"commonjs": true}] */
+
 const webpack = require('webpack');
 const path = require('path');
 
