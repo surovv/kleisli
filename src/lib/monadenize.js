@@ -1,7 +1,10 @@
-const defaultInstanceMethods = (val, instanceConstructor) => ({
+import {curry} from './fn';
+
+const defaultInstanceMethods = (val, instanceConstructor, ma = instanceConstructor(val)) => ({
   bind: fn => fn(val),
   sbind: fn => fn(),
-  apply: ffn => ffn.fmap(fn => fn(val))
+  apply: ffn => ffn.fmap(fn => fn(val)),
+  join: () => ma.fmap(x => x).constructor.name == val.constructor.name ? val : ma
 //  id
 })
 
@@ -16,17 +19,18 @@ const defaultTypeMethods = instanceConstructor => ({
   bind: (ma, fn) => ma.bind(fn),
   sbind: (ma, fn) => ma.sbind(fn),
   compose: (ma, fn) => ma.compose(fn),
+  lift: fn => (ma, ...mArgs) => mArgs.reduce((mCrrdFn, mb) => mb.apply(mCrrdFn), ma.fmap(x => curry(fn)(x))),
   join: (ma, fn) => ma.join(fn)
 });
 
 export const monadenize = (type, instanceConstructor, typeMethods = {}) =>
   Object.assign(
     val => Object.assign(
-      type,
+      new type,
       defaultInstanceMethods(val, instanceConstructor),
       instanceConstructor(val),
       monadInstanceMethods(instanceConstructor(val))
     ),
-    Object.assign({}, defaultTypeMethods, typeMethods));
+    Object.assign(defaultTypeMethods(instanceConstructor), typeMethods));
 
 export default monadenize;
