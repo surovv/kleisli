@@ -2,7 +2,7 @@
   "name": "kleisli",
   "version": "0.1.4",
   "description": "Kleisli",
-  "main": "index.js",
+  "main": "dist/kleisli.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/surovv/kleisli.git"

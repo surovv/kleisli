@@ -18,9 +18,9 @@ const defaultTypeMethods = instanceConstructor => ({
   fmap: (ma, fn) => ma.fmap(fn),
   bind: (ma, fn) => ma.bind(fn),
   sbind: (ma, fn) => ma.sbind(fn),
-  compose: (ma, fn) => ma.compose(fn),
+  compose: (ma, fns) => ma.compose(fns),
   lift: fn => (ma, ...mArgs) => mArgs.reduce((mCrrdFn, mb) => mb.apply(mCrrdFn), ma.fmap(x => curry(fn)(x))),
-  join: (ma, fn) => ma.join(fn)
+  join: ma => ma.join()
 });
 
 export const monadenize = (type, instanceConstructor, typeMethods = {}) =>
