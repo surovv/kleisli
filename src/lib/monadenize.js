@@ -31,6 +31,10 @@ export const monadenize = (type, instanceConstructor, typeMethods = {}) =>
       instanceConstructor(val),
       monadInstanceMethods(instanceConstructor(val))
     ),
-    Object.assign(defaultTypeMethods(instanceConstructor), typeMethods));
+    Object.assign(defaultTypeMethods(instanceConstructor), typeMethods)
+  );
+
+export const createTypeConstructor = (type, typeConstructor) => (...args) => ({...new type, ...typeConstructor(...args)});
+
 
 export default monadenize;
