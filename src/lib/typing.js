@@ -8,5 +8,11 @@ export const createType = (type, mixins = [], instanceMethods = () => ({}), pref
 );
 
 
+export const addPrefixNotationMethods = (type, prefixNotationMethods) => Object.assign(
+  type,
+  prefixNotationMethods,
+);
+
+
 
 export default createType;
