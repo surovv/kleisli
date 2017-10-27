@@ -14,7 +14,7 @@ const ApplicativeInstance = createType(type, mixins, instanceMethods);
 
 
 const prefixNotationMethods = {
-  unit: ApplicativeInstance,
+  pure: ApplicativeInstance,
 
   ap: (ffn, fa) => fa.ap(ffn),
   lift: (fn, fa, ...fargs) => fa.lift(fn, ...fargs),

@@ -11,7 +11,7 @@ const instanceMethods = (...args) => ({
 const FunctorInstance = createType(type, mixins, instanceMethods)
 
 const prefixNotationMethods = {
-  unit: FunctorInstance,
+  pure: FunctorInstance,
 
   fmap: (fn, fa) => fa.fmap(fn)
 };
