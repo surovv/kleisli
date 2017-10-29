@@ -1,14 +1,27 @@
+import createType, {addPrefixNotationMethods} from './typing';
 import Monad from './monad';
-import monadenize from './monadenize';
 
 
-const type = class Identity extends Monad {};
+const type = class Identity {};
+const mixins = [Monad];
 
-const instanceConstructor = val => ({
-  fmap: fn => Identity(fn(val)),
-  toString: () => val
+const instanceMethods = a => ({
+  fmap: fn => IdentityInstance(fn(a)),
+
+  toString: () => `Identity ${a}`,
 });
 
-const Identity = monadenize(type, instanceConstructor);
+const IdentityInstance = createType(type, mixins, instanceMethods);
+
+const prefixNotationMethods = {
+  pure: IdentityInstance,
+
+  fmap: (fn, ma) => ma.fmap(fn)
+};
+
+
+export const Identity = addPrefixNotationMethods(IdentityInstance, prefixNotationMethods);
+
+
 
 export default Identity;
