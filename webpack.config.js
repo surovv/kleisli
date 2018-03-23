@@ -1,21 +1,21 @@
 /* eslint "fp/no-mutation": ["error", {"commonjs": true}] */
 
-const webpack = require('webpack');
 const path = require('path');
 
 const joinToDirname = pth => path.join(__dirname, pth);
 
-module.exports = {
-  cache: true,
 
-  entry:  {
+module.exports = {
+  entry: {
     kleisli: joinToDirname('/src/index.js'),
-},
+  },
   output: {
     path: joinToDirname('/dist'),
     filename: '[name].js',
-    library: 'library',
-    libraryTarget: 'umd'
+    library: 'kleisli',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+    globalObject: 'this',
   },
 
   module: {
@@ -25,13 +25,13 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: JSON.stringify({
-          presets: ['es2015', 'stage-0'],
-        })
-      }
-    ]
+          presets: ['env', 'stage-0'],
+        }),
+      },
+    ],
   },
 
   stats: {
-    children: false
-  }
-}
+    children: false,
+  },
+};
