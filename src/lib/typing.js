@@ -1,18 +1,33 @@
-export const createType = (type, mixins = [], instanceMethods = () => ({}), prefixNotationMethods = {}) => Object.assign(
-  (...args) => Object.assign(
-    new type,
-    ...mixins.map(mixin => mixin(...args)),
-    instanceMethods(...args),
-  ),
-  prefixNotationMethods,
-);
+export const createType =
+  (
+    Type,
+    mixins = [],
+    instanceMethods = () => ({}),
+    prefixNotationMethods = {
+      pure: instanceMethods,
+    }
+  ) =>
+    Object.assign(
+      (...args) => Object.assign(
+        new Type(),
+        ...mixins.map(mixin => mixin(...args)),
+        instanceMethods(...args),
+      ),
+      Object.assign(
+        mixins.reduce(
+          (prefixMethods, mixin) => Object.assign({}, prefixMethods, mixin),
+          {}
+        ),
+        prefixNotationMethods,
+      )
+    );
 
 
-export const addPrefixNotationMethods = (type, prefixNotationMethods) => Object.assign(
-  type,
-  prefixNotationMethods,
-);
-
-
-
-export default createType;
+export const addPrefixNotationMethods = (Type, prefixNotationMethods) =>
+  Object.assign(
+    Type,
+    {
+      pure: Type,
+    },
+    prefixNotationMethods,
+  );
