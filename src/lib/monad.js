@@ -1,36 +1,31 @@
-import createType, {addPrefixNotationMethods} from './typing';
+import {createType} from './typing';
 import Applicative from './applicative';
 
 
-const type = class Monad {};
+const Type = class Monad {};
 const mixins = [Applicative];
 
 const instanceMethods = (...args) => ({
-  bind: fn => fn(...args),
-  seq: fn => fn(),
+  bind: f => f(...args),
+  seq: f => f(),
 
-//  is implied that args = [ma], and join:: calling on m(ma), so join :: m(m a) = m a
-//  it could have type checking like
-//  (args.length === 1 && args[0].bind) ?
-//      args[0].bind(a => a.constructor.name === args[0].constructor.name ? a : new Error('types error')) : new Error('types error');
+  //  is implied that args = [ma], and join:: calling on m(ma), so join :: m(m a) -> m a
+  //  it could have type checking like
+  //  (args.length === 1 && args[0].bind) ?
+  //      args[0].bind(a => a.constructor.name === args[0].constructor.name ?
+  //      a : new Error('types error')) : new Error('types error');
   join: () => args[0],
 
 //  fail: message => new Error(str),
 });
 
-const MonadInstance = createType(type, mixins, instanceMethods);
 
-const prefixNotationMethods = {
-  pure: MonadInstance,
-
-  bind: (ma, fn) => ma.bind(fn),
-  seq: (ma, fn) => ma.seq(fn),
+const staticMethods = {
+  bind: (ma, f) => ma.bind(f),
+  seq: (ma, f) => ma.seq(f),
   join: mma => mma.join(),
-//  fail: (ma, str) => ma.fail(str),
+  //  fail: (ma, str) => ma.fail(str),
 };
 
 
-export const Monad = addPrefixNotationMethods(MonadInstance, prefixNotationMethods);
-
-
-export default Monad;
+export default createType(Type, mixins, instanceMethods, staticMethods);

@@ -1,24 +1,19 @@
-import createType, {addPrefixNotationMethods} from './typing';
+import {createType} from './typing';
 
 
-const type = class Functor {};
+const Type = class Functor {};
 const mixins = [];
 
-const instanceMethods = (...args) => ({
-  fmap: fn => { throw new Error('fmap must be implemented'); },
+/* eslint-disable fp/no-nil, fp/no-throw */
+const instanceMethods = (..._args) => ({
+  fmap: _f => { throw new Error('fmap must be implemented'); },
 });
+/* eslint-enable fp/no-nil, fp/no-throw */
 
-const FunctorInstance = createType(type, mixins, instanceMethods)
 
-const prefixNotationMethods = {
-  pure: FunctorInstance,
-
-  fmap: (fn, fa) => fa.fmap(fn)
+const staticMethods = {
+  fmap: (f, fa) => fa.fmap(f),
 };
 
 
-export const Functor = addPrefixNotationMethods(FunctorInstance, prefixNotationMethods);
-
-
-
-export default Functor;
+export default createType(Type, mixins, instanceMethods, staticMethods);

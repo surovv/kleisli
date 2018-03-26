@@ -1,28 +1,24 @@
-import createType, {addPrefixNotationMethods} from './typing';
+import {curry} from './fn';
+import {createType} from './typing';
 import Functor from './functor';
 
 
-const type = class Applicative {};
+const Type = class Applicative {};
 const mixins = [Functor];
 
 const instanceMethods = (...args) => ({
-  ap: ffn => ffn.fmap(fn => fn(...args)), //apply
-  lift: (fn, ...fargs) => fargs.reduce((fCrrdFn, fb) => fb.apply(fCrrdFn), curry(fn)(...args)),
+  ap: ff => ff.fmap(f => f(...args)), /* Applicative::apply <*> */
+  lift: (f, ...fargs) => fargs.reduce(
+    (curF, fa) => fa.fmap(curF),
+    curry(f)(...args)
+  ),
 });
 
-const ApplicativeInstance = createType(type, mixins, instanceMethods);
 
-
-const prefixNotationMethods = {
-  pure: ApplicativeInstance,
-
-  ap: (ffn, fa) => fa.ap(ffn),
-  lift: (fn, fa, ...fargs) => fa.lift(fn, ...fargs),
+const staticMethods = {
+  ap: (ff, fa) => fa.ap(ff),
+  lift: (f, fa, ...fargs) => fa.lift(f, ...fargs),
 };
 
 
-export const Applicative = addPrefixNotationMethods(ApplicativeInstance, prefixNotationMethods);
-
-
-
-export default Applicative;
+export default createType(Type, mixins, instanceMethods, staticMethods);
