@@ -5,7 +5,7 @@ import Applicative from './applicative';
 const Type = class Monad {};
 const mixins = [Applicative];
 
-const instanceMethods = (...args) => ({
+const constructor = (...args) => ({
   bind: f => f(...args),
   seq: f => f(),
 
@@ -28,4 +28,4 @@ const staticMethods = {
 };
 
 
-export default createType(Type, mixins, instanceMethods, staticMethods);
+export default createType(Type, constructor, mixins, staticMethods);

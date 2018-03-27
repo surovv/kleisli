@@ -6,7 +6,7 @@ import Functor from './functor';
 const Type = class Applicative {};
 const mixins = [Functor];
 
-const instanceMethods = (...args) => ({
+const constructor = (...args) => ({
   ap: ff => ff.fmap(f => f(...args)), /* Applicative::apply <*> */
   lift: (f, ...fargs) => fargs.reduce(
     (curF, fa) => fa.fmap(curF),
@@ -21,4 +21,4 @@ const staticMethods = {
 };
 
 
-export default createType(Type, mixins, instanceMethods, staticMethods);
+export default createType(Type, constructor, mixins, staticMethods);

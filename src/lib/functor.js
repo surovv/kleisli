@@ -5,7 +5,7 @@ const Type = class Functor {};
 const mixins = [];
 
 /* eslint-disable fp/no-nil, fp/no-throw */
-const instanceMethods = (..._args) => ({
+const constructor = (..._args) => ({
   fmap: _f => { throw new Error('fmap must be implemented'); },
 });
 /* eslint-enable fp/no-nil, fp/no-throw */
@@ -16,4 +16,4 @@ const staticMethods = {
 };
 
 
-export default createType(Type, mixins, instanceMethods, staticMethods);
+export default createType(Type, constructor, mixins, staticMethods);

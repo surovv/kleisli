@@ -5,14 +5,14 @@ import Monad from './monad';
 const Type = class Identity {};
 const mixins = [Monad];
 
-const instanceMethods = a => ({
+const constructor = a => ({
   fmap: f => Identity(f(a)),
 
   toString: () => `Identity ${a}`,
 });
 
 
-const Identity = createType(Type, mixins, instanceMethods);
+const Identity = createType(Type, constructor, mixins);
 
 
 export default Identity;
