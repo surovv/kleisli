@@ -7,17 +7,20 @@ const Type = class Applicative {};
 const mixins = [Functor];
 
 const constructor = (...args) => ({
-  ap: ff => ff.fmap(f => f(...args)), /* Applicative::apply <*> */
-  lift: (f, ...fargs) => fargs.reduce(
-    (curF, fa) => fa.fmap(curF),
-    curry(f)(...args)
-  ),
+  // ap :: ff(args -> b) -> fb
+  // (<*>) :: f (a -> b) -> f a -> f b
+  ap: ff => ff.fmap(f => f(...args)),
 });
 
 
 const staticMethods = {
   ap: (ff, fa) => fa.ap(ff),
-  lift: (f, fa, ...fargs) => fa.lift(f, ...fargs),
+
+  // lift2 :: (a -> b -> c) -> m a -> m b -> m c
+  lift: (f, fa, ...fargs) => fargs.reduce(
+    (fCurF, fb) => fb.ap(fCurF),
+    fa.fmap(curry(f))
+  ),
 };
 
 

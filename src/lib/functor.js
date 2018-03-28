@@ -6,6 +6,8 @@ const mixins = [];
 
 /* eslint-disable fp/no-nil, fp/no-throw */
 const constructor = (..._args) => ({
+  // fmap :: (args -> b) -> fb
+  // <$> :: (a -> b) -> fa -> fb
   fmap: _f => { throw new Error('fmap must be implemented'); },
 });
 /* eslint-enable fp/no-nil, fp/no-throw */
